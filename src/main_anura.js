@@ -1,43 +1,34 @@
 import { Context } from "contextlink-mirror";
 import { launchPuterShell } from "./puter-shell/main.js";
-import { HtermPTT } from "./pty/HtermPTT.js";
 import { CreateEnvProvider } from "./platform/anura/env.js";
 import { CreateFilesystemProvider } from "./platform/anura/filesystem.js";
+import { AnuraPTT } from "./pty/AnuraPTT.js";
 
 const providers = [];
 const commands = {};
+window.process = env.process
 
-const create_shell = async (
-  config,
-  element,
-  hterm,
-  anura,
-  process,
-  decorate,
-) => {
-  await new Promise((resolve) => {
-    new HtermPTT(hterm, element, decorate, async (ptt) => {
-      await launchPuterShell(
-        new Context({
-            ptt,
-            config,
-            providers,
-            commands,
-            externs: new Context({
-                anura,
-                process,
-            }),
-            platform: new Context({
-                name: "node",
-                env: CreateEnvProvider(anura),
-                filesystem: CreateFilesystemProvider(anura),
-            }),
+const config = window.config || {}
+
+const ptt = new AnuraPTT(process)
+
+await launchPuterShell(
+    new Context({
+        ptt,
+        config,
+        providers,
+        commands,
+        externs: new Context({
+            anura,
+            process: env,
         }),
-      );
-      resolve();
-    });
-  });
-};
+        platform: new Context({
+            name: "anura",
+            env: CreateEnvProvider(anura),
+            filesystem: CreateFilesystemProvider(anura),
+        }),
+    }),
+);
 
 const register_provider = (provider) => {
     providers.push(provider);
@@ -67,7 +58,6 @@ const unregister_command = (idOrCommand) => {
 };
 
 export {
-    create_shell,
     register_provider,
     unregister_provider,
     register_command,

@@ -33,9 +33,6 @@ export default {
         allowPositionals: true,
     },
     execute: async ctx => {
-        const { externs } = ctx;
-        const { sdkv2 } = externs;
-
         const { positionals } = ctx.locals;
         const [query] = positionals;
     

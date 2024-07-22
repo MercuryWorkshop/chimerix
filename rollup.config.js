@@ -18,28 +18,24 @@
  */
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs';
-import copy from 'rollup-plugin-copy';
 import { SHELL_VERSIONS } from "./src/meta/versions.js";
+
+const ajs_options = {
+    // The shell language defaults to module but we should be explicit.
+    lang: "module",
+    // Version info is optional for anura binaries but we include it here for completeness.
+    version: SHELL_VERSIONS[0].v,
+}
 
 export default {
     input: "src/main_anura.js",
     output: {
-        file: "dist/bundle.mjs",
-        format: "es"
+        file: "dist/phoenix.ajs",
+        format: "es",
+        banner: `#! ${JSON.stringify(ajs_options)}`,
     },
     plugins: [
         nodeResolve(),
-        commonjs(),
-        copy({
-            targets: [
-                { src: "assets/term.png", dest: "dist" },
-                {
-                  src: "assets/manifest.json",
-                  dest: "dist",
-                  transform: (contents) =>
-                    contents.toString().replace(/%LATEST%/g, SHELL_VERSIONS[0].v),
-                },
-            ],
-        }),
+        commonjs()
     ]
 }

@@ -73,12 +73,6 @@ export const launchPuterShell = async (ctx) => {
         out: ptt.out
     });
 
-    const sdkv2 = globalThis.puter;
-    if ( ctx.platform.name !== 'node' ) {
-        await sdkv2.setAuthToken(config['puter.auth.token']);
-        await sdkv2.setAPIOrigin(config['puter.api_origin']);
-    }
-
     // // PathCommandProvider is only compatible with node.js for now
     // // HACK: The import path is split to fool rollup into not including it.
     // const { PathCommandProvider } = (ctx.platform.name === 'node')
@@ -103,7 +97,6 @@ export const launchPuterShell = async (ctx) => {
             echo,
             parser: new PuterShellParser(),
             commandProvider,
-            sdkv2,
             historyManager: readline.history,
         }),
         registries: new Context({
