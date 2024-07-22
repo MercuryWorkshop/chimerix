@@ -19,36 +19,27 @@
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs';
 import copy from 'rollup-plugin-copy';
-import process from 'node:process';
-import path from 'node:path';
-
-const configFile = process.env.CONFIG_FILE ?? 'config/dev.js';
-await import(`./${configFile}`);
+import { SHELL_VERSIONS } from "./src/meta/versions.js";
 
 export default {
-    input: "src/main_puter.js",
+    input: "src/main_anura.js",
     output: {
         file: "dist/bundle.js",
-        format: "iife"
+        format: "es"
     },
     plugins: [
-        nodeResolve({
-            rootDir: path.join(process.cwd(), '..'),
-        }),
+        nodeResolve(),
         commonjs(),
         copy({
             targets: [
+                { src: "assets/term.png", dest: "dist" },
                 {
-                    src: 'assets/index.html',
-                    dest: 'dist',
-                    transform: (contents, name) => {
-                        return contents.toString().replace('__SDK_URL__',
-                            process.env.PUTER_JS_URL ?? globalThis.__CONFIG__.sdk_url);
-                    }
+                  src: "assets/manifest.json",
+                  dest: "dist",
+                  transform: (contents) =>
+                    contents.toString().replace(/%LATEST%/g, SHELL_VERSIONS[0].v),
                 },
-                { src: 'assets/shell.html', dest: 'dist' },
-                { src: configFile, dest: 'dist', rename: 'config.js' }
-            ]
+            ],
         }),
     ]
 }
