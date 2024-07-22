@@ -23,17 +23,16 @@
     "chronokinesis": "^6.0.0",
     "cli-columns": "^4.0.0",
     "columnify": "^1.6.0",
+    "contextlink-mirror": "^0.0.0",
+    "dev-pty-mirror": "^0.0.1",
     "fs-mode-to-string": "^0.0.2",
     "json-query": "^2.2.2",
+    "parsely-mirror": "^1.0.0",
     "path-browserify": "^1.0.1",
-    "sinon": "^17.0.1"
+    "sinon": "^17.0.1",
+    "strataparse-mirror": "^0.0.0"
   },
   "optionalDependencies": {
     "node-pty": "^1.0.0"
-  },
-  "workspaces": [
-    "packages/pty",
-    "packages/strataparse",
-    "packages/contextlink"
-  ]
+  }
 }

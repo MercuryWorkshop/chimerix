@@ -1,4 +1,4 @@
-import { BetterReader } from "dev-pty";
+import { BetterReader } from "dev-pty-mirror";
 
 const encoder = new TextEncoder();
 

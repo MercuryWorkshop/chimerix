@@ -24,7 +24,7 @@ import { SHELL_VERSIONS } from "./src/meta/versions.js";
 export default {
     input: "src/main_anura.js",
     output: {
-        file: "dist/bundle.js",
+        file: "dist/bundle.mjs",
         format: "es"
     },
     plugins: [

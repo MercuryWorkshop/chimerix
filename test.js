@@ -20,7 +20,7 @@ import {
     StringPStratumImpl,
     StrataParser,
     ParserFactory,
-} from 'strataparse';
+} from 'strataparse-mirror';
 import { buildParserFirstHalf } from './src/ansi-shell/parsing/buildParserFirstHalf.js';
 import { buildParserSecondHalf } from './src/ansi-shell/parsing/buildParserSecondHalf.js';
 

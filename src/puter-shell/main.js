@@ -23,14 +23,14 @@ import ReadlineLib from "../ansi-shell/readline/readline.js";
 import SimpleArgParser from "../ansi-shell/arg-parsers/simple-parser.js";
 import ErrorsDecorator from "../ansi-shell/decorators/errors.js";
 import { ANSIShell } from "../ansi-shell/ANSIShell.js";
-import { Context } from "contextlink";
+import { Context } from "contextlink-mirror";
 import { SHELL_VERSIONS } from "../meta/versions.js";
 import { PuterShellParser } from "../ansi-shell/parsing/PuterShellParser.js";
 import { BuiltinCommandProvider } from "./providers/BuiltinCommandProvider.js";
 import { CreateChatHistoryPlugin } from './plugins/ChatHistoryPlugin.js';
 import { Pipe } from '../ansi-shell/pipeline/Pipe.js';
 import { Coupler } from '../ansi-shell/pipeline/Coupler.js';
-import { BetterReader } from 'dev-pty';
+import { BetterReader } from 'dev-pty-mirror';
 import { MultiWriter } from '../ansi-shell/ioutil/MultiWriter.js';
 import { CompositeCommandProvider } from './providers/CompositeCommandProvider.js';
 import { ScriptCommandProvider } from './providers/ScriptCommandProvider.js';
@@ -79,18 +79,18 @@ export const launchPuterShell = async (ctx) => {
         await sdkv2.setAPIOrigin(config['puter.api_origin']);
     }
 
-    // PathCommandProvider is only compatible with node.js for now
-    // HACK: The import path is split to fool rollup into not including it.
-    const { PathCommandProvider } = (ctx.platform.name === 'node')
-        ? await import('./providers/' + 'PathCommandProvider.js')
-        : { PathCommandProvider: null };
+    // // PathCommandProvider is only compatible with node.js for now
+    // // HACK: The import path is split to fool rollup into not including it.
+    // const { PathCommandProvider } = (ctx.platform.name === 'node')
+    //     ? await import('./providers/' + 'PathCommandProvider.js')
+    //     : { PathCommandProvider: null };
 
     const commandProvider = new CompositeCommandProvider([
         new BuiltinCommandProvider(),
-        // PathCommandProvider is only compatible with node.js for now
-        ...(ctx.platform.name === 'node' ? [new PathCommandProvider()] : []),
-        // PuterAppCommandProvider is only usable on Puter
-        ...(ctx.platform.name === 'puter' ? [new PuterAppCommandProvider()] : []),
+        // // PathCommandProvider is only compatible with node.js for now
+        // ...(ctx.platform.name === 'node' ? [new PathCommandProvider()] : []),
+        // // PuterAppCommandProvider is only usable on Puter
+        // ...(ctx.platform.name === 'puter' ? [new PuterAppCommandProvider()] : []),
         new ScriptCommandProvider(),
     ]);
 

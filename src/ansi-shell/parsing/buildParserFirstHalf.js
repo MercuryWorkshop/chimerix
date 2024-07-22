@@ -16,11 +16,11 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { FirstRecognizedPStratumImpl, ParserBuilder, ParserFactory, StrUntilParserImpl, StrataParseFacade, WhitespaceParserImpl } from "strataparse";
+import { FirstRecognizedPStratumImpl, ParserBuilder, ParserFactory, StrUntilParserImpl, StrataParseFacade, WhitespaceParserImpl } from "strataparse-mirror";
 import { UnquotedTokenParserImpl } from "./UnquotedTokenParserImpl.js";
 import { PARSE_CONSTANTS } from "./PARSE_CONSTANTS.js";
-import { MergeWhitespacePStratumImpl } from "strataparse/strata_impls/MergeWhitespacePStratumImpl.js";
-import ContextSwitchingPStratumImpl from "strataparse/strata_impls/ContextSwitchingPStratumImpl.js";
+import { MergeWhitespacePStratumImpl } from "strataparse-mirror/strata_impls/MergeWhitespacePStratumImpl.js";
+import ContextSwitchingPStratumImpl from "strataparse-mirror/strata_impls/ContextSwitchingPStratumImpl.js";
 
 const parserConfigProfiles = {
     syntaxHighlighting: { cst: true },

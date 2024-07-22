@@ -1,4 +1,4 @@
-import { Context } from "contextlink";
+import { Context } from "contextlink-mirror";
 import { launchPuterShell } from "./puter-shell/main.js";
 import { HtermPTT } from "./pty/HtermPTT.js";
 import { CreateEnvProvider } from "./platform/anura/env.js";

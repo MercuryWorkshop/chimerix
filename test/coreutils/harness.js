@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-import { Context } from "contextlink";
+import { Context } from "contextlink-mirror";
 import { SyncLinesReader } from '../../src/ansi-shell/ioutil/SyncLinesReader.js';
 import { CommandStdinDecorator } from '../../src/ansi-shell/pipeline/iowrappers.js';
 import { ReadableStream, WritableStream } from 'stream/web'

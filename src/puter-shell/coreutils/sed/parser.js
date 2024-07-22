@@ -39,9 +39,9 @@ import {
     ZapCommand,
 } from './command.js';
 import { Script } from './script.js';
-import { GrammarContext, standard_parsers } from '@heyputer/parsely/exports.js';
-import { StringStream } from '@heyputer/parsely/streams.js';
-import { Parser, UNRECOGNIZED, VALUE } from '@heyputer/parsely/parser.js';
+import { GrammarContext, standard_parsers } from 'parsely-mirror/exports.js';
+import { StringStream } from 'parsely-mirror/streams.js';
+import { Parser, UNRECOGNIZED, VALUE } from 'parsely-mirror/parser.js';
 
 /**
  * A slight hack: Parsely doesn't yet have an equivalent of backreferences.
