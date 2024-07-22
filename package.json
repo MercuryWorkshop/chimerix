@@ -1,6 +1,6 @@
 {
   "name": "dev-pty-mirror",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "",
   "main": "exports.js",
   "type": "module",
