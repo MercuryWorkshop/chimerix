@@ -30,7 +30,7 @@ const ajs_options = {
 export default {
     input: "src/main_anura.js",
     output: {
-        file: "dist/phoenix.ajs",
+        file: "dist/chimerix.ajs",
         format: "es",
         banner: `#! ${JSON.stringify(ajs_options)}`,
     },
