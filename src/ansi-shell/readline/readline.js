@@ -18,6 +18,8 @@
  */
 import { Context } from '../../context/context.js';
 import { CommandCompleter } from '../../puter-shell/completers/CommandCompleter.js';
+import { MergeCompleter } from '../../puter-shell/completers/MergeCompleter.js';
+import { AppCompleter } from '../../puter-shell/completers/AppCompleter.js';
 import { FileCompleter } from '../../puter-shell/completers/FileCompleter.js';
 import { OptionCompleter } from '../../puter-shell/completers/OptionCompleter.js';
 import { Uint8List } from '../../util/bytes.js';
@@ -72,13 +74,6 @@ const ReadlineProcessorBuilder = builder => builder
 
         if ( locals.byte === consts.CHAR_ETX ) {
             externs.out.write('^C\n');
-            // Exit if input line is empty
-            // FIXME: Check for 'process' is so we only do this on Node. How should we handle exiting in Puter terminal?
-            if ( typeof process !== 'undefined' && ctx.vars.result.length === 0 ) {
-                process.exit(1);
-                return;
-            }
-            // Otherwise clear it
             ctx.vars.result = '';
             ctx.setState('end');
             return;
@@ -88,6 +83,7 @@ const ReadlineProcessorBuilder = builder => builder
             externs.out.write('^D\n');
             ctx.vars.result = '';
             ctx.setState('end');
+            process.exit(1);
             return;
         }
 
@@ -124,7 +120,10 @@ const ReadlineProcessorBuilder = builder => builder
                     completer = new OptionCompleter();
                 } else {
                     // Match everything else against file names
-                    completer = new FileCompleter();
+                    completer = new MergeCompleter([
+                        new FileCompleter(),
+                        new AppCompleter(),
+                    ]);
                 }
             }
 

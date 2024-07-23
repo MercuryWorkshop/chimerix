@@ -65,7 +65,11 @@ export const CreateFilesystemProvider = (anura) =>
             if (data instanceof Blob) {
                 return await anura.fs.promises.writeFile(
                     path,
-                    Filer.Buffer(await data.arrayBuffer()),
+                    top.Filer.Buffer.from(
+                        top.ArrayBuffer.prototype.transfer.bind(
+                            await data.arrayBuffer()
+                        )()
+                    ),
                 );
             }
 
