@@ -34,7 +34,6 @@ import { BetterReader } from 'dev-pty-mirror';
 import { MultiWriter } from '../ansi-shell/ioutil/MultiWriter.js';
 import { CompositeCommandProvider } from './providers/CompositeCommandProvider.js';
 import { ScriptCommandProvider } from './providers/ScriptCommandProvider.js';
-import { PuterAppCommandProvider } from './providers/PuterAppCommandProvider.js';
 
 const argparser_registry = {
     [SimpleArgParser.name]: SimpleArgParser
@@ -42,11 +41,6 @@ const argparser_registry = {
 
 const decorator_registry = {
     [ErrorsDecorator.name]: ErrorsDecorator
-};
-
-const GH_LINK = {
-    'terminal': 'https://github.com/HeyPuter/puter/tree/main/packages/terminal',
-    'phoenix': 'https://github.com/HeyPuter/puter/tree/main/packages/phoenix',
 };
 
 export const launchPuterShell = async (ctx) => {
@@ -129,54 +123,27 @@ export const launchPuterShell = async (ctx) => {
         }));
     });
 
-    const fire = (text) => {
-        // Define fire-like colors (ANSI 256-color codes)
-        const fireColors = [202, 208, 166];
+    const gradient = (text) => {
+        // Define the gradient color codes from pink to yellow
+        const gradientColors = [205, 206, 207, 208, 214, 220, 226];
 
         // Split the text into an array of characters
         const chars = text.split('');
 
-        // Apply a fire-like color to each character
-        const fireText = chars.map(char => {
-            // Select a random fire color for each character
-            const colorCode = fireColors[Math.floor(Math.random() * fireColors.length)];
+        // Apply a gradient color to each character
+        const gradientText = chars.map((char, index) => {
+            // Cycle through the gradient colors
+            const colorCode = gradientColors[index % gradientColors.length];
             // Return the character wrapped in the ANSI escape code for the selected color
             return `\x1b[38;5;${colorCode}m${char}\x1b[0m`;
         }).join('');
 
-        return fireText;
-    }
-
-    const blue = (text) => {
-        return `\x1b[38:5:27;1m${text}\x1b[0m`;
-    }
-
-    const mklink = (url, text) => {
-        return `\x1b]8;;${url}\x07${text || url}\x1b]8;;\x07`
+        return gradientText;
     };
 
     ctx.externs.out.write(
-        `${fire('Phoenix Shell')} [v${SHELL_VERSIONS[0].v}]\n` +
-        `⛷  try typing \x1B[34;1mhelp\x1B[0m or ` +
-        `\x1B[34;1mchangelog\x1B[0m to get started.\n` +
-        // '\n' +
-        // `🔗  ${mklink('https://puter.com', 'puter.com')} ` +
-        ''
-        // `🔗  ${mklink('https://puter.com', 'puter.com')} ` +
+        `${gradient("AnuraOS Chimerix Shell")} [v${SHELL_VERSIONS[0].v}]\n`,
     );
-
-    if ( ! config.hasOwnProperty('puter.auth.token') ) {
-        ctx.externs.out.write('\n');
-        ctx.externs.out.write(
-            `\x1B[33;1m⚠\x1B[0m` +
-            `\x1B[31;1m` +
-            ' You are not running this terminal or shell within puter.com\n' +
-            `\x1B[0m` +
-            'Use of the shell outside of puter.com is still experimental.\n' +
-            'You must enter the command \x1B[34;1m`login`\x1B[0m to access most functionality.\n' +
-            ''
-        );
-    }
 
     ctx.externs.out.write('\n');
 
