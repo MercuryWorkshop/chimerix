@@ -73,11 +73,20 @@ export class AnuraPTT {
 
                 this.readController.enqueue(event.data.message);
             }
+            if (event.data.type.startsWith("ioctl")) {
+                this.emit(event.data.type, event.data);
+            }
         });
 
         console.log(window)
 
         this.ioctl_listeners = {};
+
+        this.on("ready", () => {
+            window.postMessage({
+                type: "ready",
+            });
+        });
     }
 
     on (name, listener) {

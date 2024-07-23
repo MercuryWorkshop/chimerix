@@ -133,15 +133,36 @@ export default {
         lines[7] += COL + "GPU" + END + ": " + gpu;
         lines[8] += COL + "Online" + END + ": " + (navigator.onLine ? "Yes" : "No");
         for (let i = 0; i < 16; i++) {
-            let ri = i < 9 ? 14 : 15;
+            let ri = i < 8 ? 13 : 14;
             let esc = i < 9 ? `\x1B[3${i}m\x1B[4${i}m` : C25(i) + B25(i);
             lines[ri] += esc + "   ";
         }
+        lines[13] += "\x1B[0m";
         lines[14] += "\x1B[0m";
-        lines[15] += "\x1B[0m";
 
         for (const line of lines) {
-            await ctx.externs.out.write(line + "\n");
+            await ctx.externs.out.write(filterAnsi(line, ctx.env.COLS) + "\n");
         }
     },
 };
+function filterAnsi(str, len) {
+    let count = 0; 
+    let esc = false;
+    let longesc = false;
+    
+    return Array.from(str).filter((c) => {
+        if (esc && !longesc && c === '[') longesc = true;
+        if (c === '\x1b') esc = true;
+
+        const output = (count < len || esc);
+        if (!esc && !longesc) count++;
+
+        if (esc && !longesc && c !== '\x1b') esc = false;
+        if (longesc && c !== '[' && c >= '@' && c <= '~') {
+            esc = false;
+            longesc = false;
+        }
+
+        return output; 
+    }).join('');
+}

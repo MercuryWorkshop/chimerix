@@ -123,6 +123,8 @@ export const launchPuterShell = async (ctx) => {
         }));
     });
 
+    ptt.emit("ready")
+
     const gradient = (text) => {
         // Define the gradient color codes from pink to yellow
         const gradientColors = [205, 206, 207, 208, 214, 220, 226];
